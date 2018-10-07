@@ -60,26 +60,29 @@ exports.googleLogin = functions.https.onRequest(function(req,response){
                     body : body
                 }
                 const token = jwt.sign(data,"rsg",{ expiresIn : "12h"});
+
                 return response.json(token)
             }
         })
     })
 })
 
-exports.authenticate = functions.https.onRequest((req,res,next) => {
+function authenticate(req,res,next){
 
     if(req.body.accessToken == undefined || req.body.accessToken == '')
     {
-        return res.json({error : true})
+        return res.json({error : true,location : "empty or undefined access token"})
     }
 
     let accessToken = req.body.accessToken
 
+    console.log(accessToken);
+
     jwt.verify(accessToken,"rsg",(err,data) => {
 
-        if(err)
+        if(err != null)
         {
-            return res.json({error : true})
+            return res.json({error : err,location : "falied to verify"})
         }
         else
         {
@@ -91,11 +94,46 @@ exports.authenticate = functions.https.onRequest((req,res,next) => {
             }
             else
             {
-                let email1 = body.emails[0].value.split(/[@]/)[0];
-                let email = email1.replace(/\./g,',');
-                req.body.email = email;
+                let email1 = data.body.emails[0].value.split(/[@]/)[0];
+                let uname = email1.replace(/\./g,',');
+                req.body.uname = uname;
                 next();
             }
         }
     })
-})
+}
+
+app.use('/addLink',authenticate,addLink)
+
+function addLink(req,res)
+{
+    let uname = req.body.uname;
+
+    if(req.body.category == null || req.body.category == undefined)
+    {
+        category = "none"
+    }
+    else
+    {
+        category = req.body.category
+    }
+
+    let linkName = req.body.linkName;
+    let url = req.body.url;
+    let timeStamp = req.body.timeStamp;
+
+    database.child(`data/${uname}/links/${linkName}`).set({
+        category : category,
+        url : url,
+        privacy : "private",
+        timeStamp : timeStamp
+    })
+    .then((snapshot) => {
+        return res.json("Link Added Successfully")
+    })
+    .catch((err) => {
+        return res.json("Error in adding link")
+    })
+}
+
+exports.addLink = functions.https.onRequest(app);
