@@ -21,12 +21,19 @@ exports.googleLogin=functions.https.onRequest(function(req,response){
                 rff.set({
                     signed_in: true,
                 });
+                data={
+                    signed_in: true,
+                    body: body
+                }
+                const token=jwt.sign(data,'RSG',{ expiresIn:"12h"});
+                return response.json(token);
             }
         });
         let reff = database.ref(emailRef);
         reff.once('value',function(snap) {
             data={
                 signed_in: snap.val().signed_in,
+                body: body
             }
             const token=jwt.sign(data,'RSG',{ expiresIn:"12h"});
             return response.json(token);
