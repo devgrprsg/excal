@@ -3,6 +3,7 @@ const admin = require('firebase-admin')
 const bodyParser = require('body-parser')
 const express = require('express')
 const jwt = require('jsonwebtoken')
+const crypto = require('crypto')
 
 admin.initializeApp();
 const database = admin.database().ref();
@@ -10,6 +11,7 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended:false}));
 
+/*
 exports.googleLogin = functions.https.onRequest(function(req,response){
     let accToken = req.query.accessToken;
     const request = require('request');
@@ -74,7 +76,7 @@ function authenticate(req,res,next){
         return res.json({error : true,location : "empty or undefined access token"})
     }
 
-    let accessToken = req.body.accessToken
+    let accessToken = req.body.accoessToken
 
     console.log(accessToken);
 
@@ -101,39 +103,98 @@ function authenticate(req,res,next){
             }
         }
     })
-}
+} */
 
-app.use('/addLink',authenticate,addLink)
+app.use('/addLink',addLink)
+app.use('/addToTimeline',addToTimeline)
 
 function addLink(req,res)
 {
-    let uname = req.body.uname;
-
-    if(req.body.category == null || req.body.category == undefined)
-    {
-        category = "none"
-    }
-    else
-    {
-        category = req.body.category
-    }
-
-    let linkName = req.body.linkName;
-    let url = req.body.url;
+    let link = req.body.link;
+    let category = req.body.category;
+    let description = req.body.description;
     let timeStamp = req.body.timeStamp;
+    let uname = 'devgrprsg'
 
-    database.child(`data/${uname}/links/${linkName}`).set({
-        category : category,
-        url : url,
-        privacy : "private",
-        timeStamp : timeStamp
+    if(category == null || category == undefined)
+    {
+        category = 'misc'
+    }
+
+    if(description == null || description == undefined)
+    {
+        description = 'no description provided';
+    }
+
+    let hash = crypto.createHash('md5').update(link).digest('hex')
+
+    database.child(`users/${uname}/data/${category}/${hash}`).set({
+
+        link : link,
+        description : description,
+        timeStamp : timeStamp,
+        privacy : 'private'
     })
-    .then((snapshot) => {
-        return res.json("Link Added Successfully")
+    .then((snap) => {
+
+        res.json({
+            success : true,
+            message : 'Link added successfully',
+            postId : hash
+        })
     })
     .catch((err) => {
-        return res.json("Error in adding link")
+
+        res.json({
+            errorLocation : 'error in adding link',
+            error : err
+        })
     })
 }
 
-exports.addLink = functions.https.onRequest(app);
+function addToTimeline(req,res)
+{
+    let uname = 'devgrprsg';
+    let postId = req.body.postId;
+    let category = req.body.category;
+    let timeOfAdding = req.body.timeStamp;
+    let linkPath = `users/${uname}/data/${category}/${postId}`;
+    let postPath = `users/${uname}/timeline/${category}/${postId}`;
+
+    let post = {};
+
+    return database.child(linkPath).once('value')
+    .then((snapshot) => {
+
+        post = {
+            link : snapshot.val().link,
+            description : snapshot.val().description,
+            privacy : 'public',
+            timeStamp : snapshot.val().timeStamp
+        }
+        console.log('updating post')
+        return database.child(linkPath).update(post);
+    })
+    .then((snapshot) => {
+
+        post = {
+            link : post.link,
+            description : post.description,
+            privacy : 'public',
+            timeStamp : post.timeStamp,
+            likes : '0',
+            comment : 'nothing'
+        }
+        return database.child(postPath).set(post)
+    })
+    .then((snapshot) => {
+
+        res.json('Post added successfully to timeline')
+    })
+    .catch((err) => {
+
+        return res.json(err)
+    })
+}
+
+exports.api = functions.https.onRequest(app);
