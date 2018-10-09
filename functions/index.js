@@ -9,6 +9,9 @@ const database=admin.database();
 const app = express();
 app.use(bodyParser.urlencoded({extended:false}));
 
+//hard-coded string
+let notification="posted on timeline";
+
 const authenticate = (req, res, next) => {
      if(req.body.accessToken === undefined || req.body.accessToken === '')
     {
@@ -42,6 +45,32 @@ const authenticate = (req, res, next) => {
     })
 }
 
+exports.getFriends = functions.https.onRequest((request , response) => {
+    var email=request.query.email;
+    let items = [];
+    var reff=database.ref('/users/'+email);
+    reff.once('value',function(snapshot){
+        if(!snapshot.hasChild('friends')) {
+            console.log("no friend");
+            items.push({
+                message : "no friend",
+            });
+            console.log(items);
+            return response.status(200).json(items);
+        }
+    });
+    database.ref('/users/'+email+'/friends/').on('value', function(snapshot) {
+        snapshot.forEach(function(childSnap) {
+            console.log(childSnap.val());
+            items.push({
+                uemail : childSnap.val(),
+              });
+        });
+    });
+    //response.set('Cache-Control', 'public, max-age=300 , s-maxage=600');
+     response.status(200).json(items);
+});
+
 exports.addtimeline=functions.https.onRequest((req , res) => {
     console.log(req.query);
     let email=req.query.email;
@@ -66,6 +95,7 @@ exports.addtimeline=functions.https.onRequest((req , res) => {
         let node3="users";
         snapshot.forEach(function(childSnapshot) {
             ref.child(node3+"/"+childSnapshot.val()+"/timeline").push(postId);
+            ref.child(node3 +"/"+childSnapshot.val() + "/notifications").push(email+" "+notification);
         });
     })
     res.status(200).json({
