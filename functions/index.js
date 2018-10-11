@@ -1,10 +1,62 @@
 const functions = require('firebase-functions');
 const admin=require('firebase-admin');
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const bodyParser = require('body-parser');
+const crypto = require('crypto');
+
 admin.initializeApp();
 const database=admin.database();
-const jwt = require('jsonwebtoken');
 
-exports.googleLogin=functions.https.onRequest(function(req,response){
+const app = express();
+
+app.use(bodyParser.urlencoded({extended:false}));
+
+app.use('/addLike',authenticate,addLike,addLikedBy)
+app.use('/addComment',authenticate,addComment)
+app.use('/addLink',authenticate,addLink)
+app.use('/addTimeline',authenticate,addTimeline)
+app.use('/sendFriendRequest',authenticate,sendFriendRequest)
+app.use('/addLikedBy',authenticate,addLikedBy)
+app.use('/getNotifications',authenticate,getNotifications)
+app.use('/getFRequests',authenticate,getFRequests)
+app.use('/getFriends',authenticate,getFriends)
+app.use('/acceptFriendRequest',authenticate,acceptFriendRequest)
+app.use('/googleLogin',authenticate,googleLogin)
+
+//hard-coded string
+let notification="posted on timeline";
+
+function authenticate(req,res,next){
+
+    if(req.body.accessToken === undefined || req.body.accessToken === '')
+    {
+        return res.json({error : true,location : "empty or undefined access token"})
+    }
+
+    let accessToken = req.body.accessToken
+
+    console.log(accessToken);
+
+    jwt.verify(accessToken,"rsg",(err,data) => {
+
+        if(err !== null)
+        {
+            return res.json({error : err,location : "falied to verify"})
+        }
+        else
+        {
+            console.log(data);
+                let email1 = data.body.emails[0].value.split(/[@]/)[0];
+                let uname = email1.replace(/\./g,',');
+                req.body.uemail = uname;
+                return next();
+
+        }
+    })
+}
+
+function googleLogin(req,response){
     let accessToken=req.query.accessToken;
     const request=require('request');
     request('https://www.googleapis.com/plus/v1/people/me?access_token='+accessToken,{json:true},(err,res,body)=> {
@@ -40,210 +92,336 @@ exports.googleLogin=functions.https.onRequest(function(req,response){
         });
 
     });
-});
+}
 
-exports.getFriends = functions.https.onRequest((request , response) => {
-    var email=request.query.uemail;
-    let items = [];
-    var reff=database.ref('/users/'+email);
-    reff.once('value',function(snapshot){
-        if(!snapshot.hasChild('friends')) {
-            console.log("no friend");
-            items.push({
-                message : "no friend",
-            });
-            console.log(items);
-            response.send(200).json(items);
+
+function addLikedBy(req,res)
+{
+    let link = req.body.link
+    let uemail=req.body.uemail
+    let postId=crypto.createHash('md5').update(link+uemail).digest('hex')
+    let uid = req.body.uid/*it is the uemail of person who is liking the post*/
+    let postPath = `posts/${postId}/likedBy/${uid}/`
+    let likkes=0;
+
+
+    return database.ref().child(postPath).once('value',function(snap){
+        if(snap.val())
+        {
+            likkes=snap.val().likes;
         }
-    });
-    database.ref('/users/'+email+'/friends/').on('value', function(snapshot) {
-        snapshot.forEach(function(childSnap) {
-            console.log(childSnap.val());
-            items.push({
-                uemail : childSnap.val(),
-            });
+        database.ref(postPath).set({
+            likes : likkes+1
         });
-    });
-    response.set('Cache-Control', 'public, max-age=300 , s-maxage=600');
-    return response.json(items);
-});
+    })
+        .then((snap) => {
+
+            return res.json({
+                success : true,
+                message : 'likeed by uemail successfully added'
+            })
+        })
+        .catch((err) => {
+
+            return res.json({
+                success : false,
+                message : 'error in adding liked by in the post',
+                err : err
+            })
+        })
+}
+
+function addLike(req,res,next)
+{
+    let link = req.body.link
+    let uemail=req.body.uemail
+    let hashkey = link+uemail;
+    let postId=crypto.createHash('md5').update(hashkey).digest('hex');
+    let uid = req.body.uid
+    let postPath = `posts/${postId}/`
 
 
+    return database.ref().child(postPath).once('value',function(snap){
+        let likkes=0;
+        if(snap.val())
+        {
+            if(snap.val().likes)
+            likkes=snap.val().likes;
+        }
+       database.ref(postPath).update({
+           likes : likkes+1
+       });
+    })
+        .then((snap) => {
 
-exports.addtimeline=functions.https.onRequest((req , res) => {
-    console.log(req.query);
-    let email=req.query.email;
-    let link=req.query.link;
-    let description=req.query.description;
-    let node="posts";
-    let ref=database.ref();
+            res.json({
+                success : true,
+                message : 'like successfully added'
+            })
+            return next();
+        })
+        .catch((err) => {
+
+            res.json({
+                success : false,
+                message : 'error in adding like in the post',
+                err : err
+            })
+        })
+}
+
+
+function addComment(req,res)
+{
+    let link = req.body.link
+    let uemail=req.body.uemail
+    let postId=crypto.createHash('md5').update(link+uemail).digest('hex')
+    let uid = req.body.uid
+    let comment = req.body.comment
+    let postPath = `posts/${postId}/comments`
+
+    return database.ref().child(postPath).push({
+        uemail : uid,
+        comment : comment
+    })
+        .then((snap) => {
+
+            return res.json({
+                success : true,
+                message : 'comment successfully added'
+            })
+        })
+        .catch((err) => {
+
+            res.json({
+                success : false,
+                message : 'error in commenting the post',
+                err : err
+            })
+        })
+}
+
+
+function addLink(req,res)
+{
+    let link = req.body.link;
+    let category = req.body.category;
+    let description = req.body.description;
+    let timeStamp = req.body.timeStamp;
+    let uemail = req.body.uemail;
+
+    if(category === null || category === undefined)
+    {
+        category = 'misc'
+    }
+
+    if(description === null || description === undefined)
+    {
+        description = 'no description provided';
+    }
+
+    let hash = crypto.createHash('md5').update(link).digest('hex')
+
+    return database.ref().child(`users/${uemail}/data/${category}/${hash}`).set({
+
+        link : link,
+        description : description,
+        timeStamp : timeStamp,
+        privacy : 'private'
+    })
+        .then((snap) => {
+
+            return res.json({
+                success : true,
+                message : 'Link added successfully',
+            })
+        })
+        .catch((err) => {
+
+            res.json({
+                errorLocation : 'error in adding link',
+                error : err
+            })
+        })
+}
+
+
+function addTimeline(req,res)
+{
+    let email = req.body.uemail;
+    let link = req.body.link;
+    let description = req.body.description;
+    let node = "posts";
+    let ref = database.ref();
     //post added to posts node.
-    let postId=ref.child(node).push().key;
+    let hashkey = link+email;
+    let postId = crypto.createHash('md5').update(hashkey).digest('hex');
     console.log(postId);
     admin.database().ref().child(node+"/"+postId).set({
         uname: email,
-        like: 0,
-        comment: ' ',
         description: description,
         link: link
     });
     //adding postId to uname timeline.
-    let node2="users/"+email;
+    let node2 = "users/"+email;
     ref.child(node2+"/timeline").push(postId);
     ref.child(node2+"/friends").once('value',(snapshot) => {
-        let node3="users";
+        let node3 = "users";
         snapshot.forEach(function(childSnapshot) {
             ref.child(node3+"/"+childSnapshot.val()+"/timeline").push(postId);
-            ref.child(node3 +"/"+childSnapshot.val() + "/notifications").push(email+" "+"shared a link");
-        });
+            ref.child(node3 +"/"+childSnapshot.val() + "/notifications").push(email+" "+notification);
+        })
+    }).then((snap) => {
+            return  res.json({
+                success: true,
+                message: "post added!",
+                postId: postId         
+        })
+    }).catch((err) => {
+            return res.json({
+                success: false,
+                message: err
+        })
     })
-    res.status(200).json({
-        message: "post added!"
-    })
-});
+}
 
-exports.getTimeline = functions.https.onRequest((request , response) => {
-    let email=request.query.uemail;
+function sendFriendRequest(req,res){
+    let receiverEmail = req.body.receiverEmail;
+    let senderEmail = req.body.uemail;
+    let node = "users/" + receiverEmail + "/FriendRequests/" + senderEmail;
+    let ref = database.ref();
+    ref.child(node).set({ bool : 1}).then((snap) => {
+        return res.status(200).json({
+            success: true,
+            message: "friend request sent!"
+        })
+    }).catch((err) => {
+        return res.json({
+            success: false,
+            message: err
+        })
+    })
+}
+
+function acceptFriendRequest(req,res) {
+    let senderEmail = req.body.senderEmail;
+    let receiverEmail = req.body.uemail;
+    let node1 = "users/";
+    let node2 = node1+"/"+receiverEmail+"/friends";
+    let ref = database.ref();
+    ref.child(node2).push(senderEmail);
+    let node3 = node1+"/"+senderEmail+"/friends";
+    ref.child(node3).push(receiverEmail);
+    let node4 = node1+"/"+receiverEmail+"/FriendRequests/"+senderEmail;
+    ref.child(node4).remove().catch((err) => {
+         return res.json({
+            success: false,
+            message: err
+        })
+    })
+}
+
+function getFriends(request,response)
+{
+    var email=request.body.uemail;
     let items = [];
-    var ref1=database.ref('/users/'+email);
-    items.push({
-        message : "ouside",
-    });
-    ref1.once('value',function(snapshot){
-        if(!snapshot.hasChild('timeline')) {
-            console.log("no post");
+    var reff=database.ref('/users/'+email);
+    reff.once('value',(snapshot)=> {
+        if (!snapshot.hasChild('friends')) {
             items.push({
-                message : "no post",
+                message: "no friends",
             });
-            console.log(items);
             return response.json(items);
         }
-    });
-    let node1='/users/'+email+'/timeline/';
-    database.ref(node1).on('value', function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-            console.log(childSnapshot.val());
-            database.ref('/posts/'+childSnapshot.val()).on('value',function(snap){
-                console.log(snap.val());
-                items.push(snap.key,{
-                    uname: snap.val().uname,
-                    like: snap.val().like,
-                    comment: snap.val().comment,
-                    description: snap.val().description,
-                    link: snap.val().link
+        else {
+            database.ref('/users/' + email + '/friends/').once('value').then((snapshot) => {
+                snapshot.forEach(function (childSnap) {
+                    items.push({
+                        uemail : childSnap.val()
+                    });
                 });
-            });
-        });
-    });
-    console.log(items);
-    response.set('Cache-Control', 'public, max-age=300 , s-maxage=600');
-    response.status(200).json(items)
-});
+                return response.json(items);
+            })
+                .catch((err) => {
+                    return response.json({
+                        message : "Error in getting friends",
+                        err : err
+                    });
+                })
+        }
 
-exports.getRecActs = functions.https.onRequest((request , response) => {
-    var email=request.query.uemail;
+
+    });
+}
+
+function getFRequests(request,response){
+    var email=request.body.uemail;
     let items = [];
     var reff=database.ref('/users/'+email);
-    reff.once('value',function(snapshot){
-        if(!snapshot.hasChild('recActs')) {
-            console.log("no activities");
+    reff.once('value',(snapshot)=> {
+        if (!snapshot.hasChild('FriendRequests')) {
             items.push({
-                message : "no activities",
+                message: "no requests",
             });
-            console.log(items);
-            response.send(200).json(items);
+            return response.json(items);
         }
-    });
-    database.ref('/users/'+email+'/recActs/').on('value', function(snapshot) {
-        snapshot.forEach(function(childSnap) {
-            items.push({
-                link : childSnap.key,
-                time : childSnap.val()
-            });
-            console.log(items);
-        });
-    });
-    response.set('Cache-Control', 'public, max-age=300 , s-maxage=600');
-    return response.json(items);
-});
+        else {
+            database.ref('/users/' + email + '/FriendRequests/').once('value').then((snapshot) => {
+                snapshot.forEach(function (childSnap) {
+                    items.push({
+
+                        uemail : childSnap.key
+                    });
+                });
+                response.set('Cache-Control', 'public, max-age=300 , s-maxage=600');
+                return response.json(items);
+            })
+                .catch((err) => {
+                    return response.json({
+                        message : "Error in getting friendsRequests",
+                        err : err
+                    });
+                })
+        }
 
 
-exports.getNotifications = functions.https.onRequest((request , response) => {
-    var email=request.query.uemail;
+    });
+}
+
+
+
+function getNotifications(request , response) {
+    var email=request.body.uemail;
     let items = [];
     var reff=database.ref('/users/'+email);
-    reff.once('value',function(snapshot){
-        if(!snapshot.hasChild('notifications')) {
-            console.log("no notifications");
+    reff.once('value',(snapshot)=> {
+        if (!snapshot.hasChild('notifications')) {
             items.push({
-                message : "no notifications",
+                message: "no notifications",
             });
-            console.log(items);
-            response.send(200).json(items);
+            return response.json(items);
         }
-    });
-    database.ref('/users/'+email+'/notifications/').on('value', function(snapshot) {
-        snapshot.forEach(function(childSnap) {
-            console.log(childSnap.val());
-            items.push({
-                notification : childSnap.val(),
-            });
-        });
-    });
-    response.set('Cache-Control', 'public, max-age=300 , s-maxage=600');
-    return response.json(items);
-});
+        else {
+            database.ref('/users/' + email + '/notifications/').once('value').then((snapshot) => {
+                snapshot.forEach(function (childSnap) {
+                    items.push({
 
-exports.getRequests = functions.https.onRequest((request , response) => {
-    var email=request.query.uemail;
-    let items = [];
-    var reff=database.ref('/users/'+email);
-    reff.once('value',function(snapshot){
-        if(!snapshot.hasChild('FriendRequests')) {
-            console.log("no FriendRequests");
-            items.push({
-                message : "no request",
-            });
-            console.log(items);
-            return response.send(200).json(items);
+                        notification: childSnap.val()
+                    });
+                });
+                response.set('Cache-Control', 'public, max-age=300 , s-maxage=600');
+                return response.json(items);
+            })
+                .catch((err) => {
+                    return response.json({
+                        message : "Error in getting notifications",
+                        err : err
+                    });
+                })
         }
+
+
     });
-    database.ref('/users/'+email+'/FriendRequests/').on('value', function(snapshot) {
-        snapshot.forEach(function(childSnap) {
-            console.log(childSnap.key);
-            items.push({
-                uemail : childSnap.key,
-            });
-        });
-    });
-    response.set('Cache-Control', 'public, max-age=300 , s-maxage=600');
-    return response.json(items);
-});
+}
 
-
-exports.sendFriendRequest=functions.https.onRequest((req,res) => {
-    let receiverEmail=req.query.receiverEmail;
-    let senderEmail=req.query.email;
-    let node="users/"+receiverEmail+"/FriendRequests/"+senderEmail;
-    let ref=database.ref();
-    ref.child(node).set({ bool : 1});
-    res.status(200).json({
-        message: "friend request sent!"
-    })
-});
-
-exports.acceptFriendRequest=functions.https.onRequest((req,res) => {
-    let senderEmail=req.query.senderEmail;
-    let receiverEmail=req.query.email;
-    let node1="users/";
-    let node2=node1+"/"+receiverEmail+"/friends";
-    let ref=database.ref();
-    ref.child(node2).push(senderEmail);
-    let node3=node1+"/"+senderEmail+"/friends";
-    ref.child(node3).push(receiverEmail);
-    let node4=node1+"/"+receiverEmail+"/FriendRequests/"+senderEmail;
-    ref.child(node4).remove();
-    res.status(200).json({
-        message: "friend request accepted"
-    })
-});
+exports.api = functions.https.onRequest(app);
