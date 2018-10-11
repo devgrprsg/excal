@@ -11,7 +11,6 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended:false}));
 
-/*
 exports.googleLogin = functions.https.onRequest(function(req,response){
     let accToken = req.query.accessToken;
     const request = require('request');
@@ -69,6 +68,14 @@ exports.googleLogin = functions.https.onRequest(function(req,response){
     })
 })
 
+app.use('/addLink',authenticate,addLink)
+app.use('/makePublic',authenticate,makePublic)
+app.use('/addPost',authenticate,addPost)
+app.use('/addLike',authenticate,addLike)
+app.use('/addComment',authenticate,addComment)
+app.use('/addFriend',authenticate,addFriend)
+app.use('/acceptFriendRequest',authenticate,acceptFriendRequest)
+
 function authenticate(req,res,next){
 
     if(req.body.accessToken == undefined || req.body.accessToken == '')
@@ -97,16 +104,13 @@ function authenticate(req,res,next){
             else
             {
                 let email1 = data.body.emails[0].value.split(/[@]/)[0];
-                let uname = email1.replace(/\./g,',');
-                req.body.uname = uname;
+                let uid = email1.replace(/\./g,',');
+                req.body.uid = uname;
                 next();
             }
         }
     })
-} */
-
-app.use('/addLink',addLink)
-app.use('/addToTimeline',addToTimeline)
+}
 
 function addLink(req,res)
 {
@@ -152,14 +156,12 @@ function addLink(req,res)
     })
 }
 
-function addToTimeline(req,res)
+function makePublic(req,res)
 {
     let uname = 'devgrprsg';
     let postId = req.body.postId;
     let category = req.body.category;
-    let timeOfAdding = req.body.timeStamp;
     let linkPath = `users/${uname}/data/${category}/${postId}`;
-    let postPath = `users/${uname}/timeline/${category}/${postId}`;
 
     let post = {};
 
@@ -177,23 +179,171 @@ function addToTimeline(req,res)
     })
     .then((snapshot) => {
 
-        post = {
-            link : post.link,
-            description : post.description,
-            privacy : 'public',
-            timeStamp : post.timeStamp,
-            likes : '0',
-            comment : 'nothing'
-        }
+        return res.json({
+            success : true,
+            message : "post made public successfully"
+        })
+    })
+    .catch((err) => {
+
+        return res.json({
+            success : false,
+            message : "error in making post public"
+        })
+    })
+}
+
+function addPost(req,res)
+{
+    let uid = req.body.uid;
+    let linkId = req.body.linkId;
+    let category = req.body.category;
+    let description = req.body.description;
+
+    let postId = uid + linkId;
+    let hash = crypto.createHash('md5').update(postId).digest('hex')
+
+    let linkPath = `users/${uid}/data/${category}/${postId}`;
+    let postPath = `posts/${hash}`
+
+    let post = {}
+
+    return database.child(linkPath).once('value')
+    .then((link) => {
+        
+        post = link.val()
+
         return database.child(postPath).set(post)
     })
     .then((snapshot) => {
 
-        res.json('Post added successfully to timeline')
+        let friendsPath = `users/${uid}/friends`;
+
+        return database.child(friendsPath).once('value')
+    })
+    .then((friendList) => {
+
+        friendList.forEach(function(friendId){
+
+            database.child(`users/${friendId}/timeline/${hash}`).set({
+                friendId : uid,
+                timeStamp : timeStamp
+            })
+            .then((snapshot) => {
+                console.log('post added to friends timeline')
+            })
+        })
+
+        database.child(`users/${uid}/timeline/${hash}`).set({
+            friendId : uid,
+            timeStamp : timeStamp
+        })
+        .then((snapshot) => {
+            console.log('post added to my own timeline')
+        })
     })
     .catch((err) => {
 
-        return res.json(err)
+        res.json({
+            success : false,
+            message : 'error in adding post to timeline'
+        })
+    })
+}
+
+function addLike(req,res)
+{
+    let postId = req.body.postId
+    let uid = req.body.uid
+    let path = `posts/${postId}/likes`
+
+    let post = {}
+
+    return database.child(postPath).push({
+
+        uid : uid
+    })
+    .then((snap) => {
+
+        res.json({
+            success : true,
+            message : 'comment successfully added'
+        })
+    })
+    .catch((err) => {
+
+        res.json({
+            success : false,
+            message : 'error in commenting the post'
+        })
+    })
+}
+
+function addComment(req,res)
+{
+    let postId = req.body.postId
+    let uid = req.body.uid
+    let comment = req.body.comment
+    let postPath = `posts/${postId}/comments`
+
+    let post = {}
+
+    return database.child(postPath).push({
+
+        uid : uid,
+        comment : comment
+    })
+    .then((snap) => {
+
+        res.json({
+            success : true,
+            message : 'comment successfully added'
+        })
+    })
+    .catch((err) => {
+
+        res.json({
+            success : false,
+            message : 'error in commenting the post'
+        })
+    })
+}
+
+function addFriend(req,res)  
+{
+    let receiverId=req.body.receiverId;
+    let senderId=req.body.senderId;
+
+    let node="users/"+receiverId+"/FriendRequests/"+senderId;
+    let ref=database.ref();
+
+    ref.child(node).set({ bool : 1});
+
+    res.status(200).json({
+        message: "friend request sent!"
+    })
+}
+
+function acceptFriendRequest(req,res)
+{
+    let uid = req.body.uid
+    let senderId = req.body.senderId
+    let path = `users/${uid}/friends/${senderId}`
+
+    database.child(path).set({
+        bool : true
+    })
+    .then((snap) => {
+        res.json({
+            success : true,
+            message : 'friend request accepted'
+        })
+    })
+    .catch((err) => {
+        res.json({
+            success : false,
+            message : 'error in accepting friend request'
+        })
     })
 }
 
