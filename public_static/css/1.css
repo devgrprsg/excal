@@ -1,0 +1,312 @@
+
+body{
+	background-color: #fafafa;
+}
+
+.main{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	height: 80px;
+	background-color: white;
+}
+.b{
+	/*border: 0.5px solid lightgrey;*/
+}
+
+.b1{
+	border: 0.5px solid lightgrey;
+}
+
+.main-1{
+	/*//flex-basis: 18%;*/
+	order: 1;
+}
+.main-2{
+	/*//flex-basis: 12%;*/
+	flex-basis: 160px;
+	order: 2;
+	align-self: center;
+	font-family: arial;
+	font-size: 170%;
+	color: black;
+}
+.main-3{
+	order: 3;
+	flex-basis: 42%;
+}
+.main-4{
+	order: 4;
+	/*//flex-basis: 8%;*/
+	flex-basis: 160px;
+	align-self: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+
+
+.main-5{
+	order: 5;
+	/*//flex-basis: 20%;*/
+}
+
+
+
+
+.belowMain{
+	display: flex;
+	flex-direction: column;
+}
+
+.bMSpace{
+	flex-basis: 50px;
+	background-color: #fafafa;
+}
+
+.timeline{
+	/*height: 1000px;*/
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.t1{
+	/*//flex-basis: 19%;
+	//background-color: #fafafa;*/
+}
+
+.t2{
+	/*	flex-basis: 550px;*/
+	width: 550px; 
+
+	/*background-color: white;*/
+}
+
+.t3{
+	flex-basis: 3%;
+	/*//background-color: #fafafa;*/
+}
+
+.t4{
+	flex-basis: 300px; 
+	display: flex;
+	flex-direction: column;
+}
+
+.t4-profile{
+	flex-basis: 75px; /*//10%
+	//background-color: #fafafa;*/
+	display: flex;
+	flex-direction: row;
+}
+
+.t4-p-1{
+	flex-basis:75px;/*//31%*/
+	align-self: center;
+}
+
+.t4-p-2{
+	align-self: center;
+}
+.t4-friends{
+	/*flex-basis: 40%;*/
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+}
+
+.t5{
+	/*//flex-basis: 21%;
+	//background-color: #fafafa;*/
+}
+
+.img{
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	align-self: center;
+	margin-left: 5px;
+	margin-top: 5px;
+	margin-bottom: 12px;
+}
+#name{
+	color: grey;
+}
+
+.t4-f-1{
+	flex-basis: 30px;
+	display: flex;
+	flex-direction: row;
+	margin: 9px 0px 10px 27px;
+}
+
+.t4-f-1-1{
+	flex-basis: 80px;
+	align-self: center;
+}
+
+.t4-f-2{
+	height: 290px;
+	display: flex;
+	flex-direction: column;
+	overflow: auto;
+}
+.name{
+	color: grey;
+}
+
+.t4-f-profile{
+	flex-basis: 50px; /*//10%
+	//background-color: #fafafa;*/
+	display: flex;
+	flex-direction: row;
+}
+
+.t4-f-p-1{
+	flex-basis:55px;/*//31%*/
+	align-self: center;
+}
+
+.t4-f-p-2{
+	/*/align-self: center;*/
+	padding-top: 10px; 
+}
+
+.img1{
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+	align-self: center;
+	margin-left: 28px;
+	margin-top: 3px;
+	margin-bottom: 5px;
+	margin-right: 10px;
+}
+
+
+
+.dropFlex{
+	flex-basis: 50px; /*//10%
+	//background-color: #fafafa;*/
+	display: flex;
+	flex-direction: row;
+}
+
+.dropFlex-1{
+	flex-basis:55px;/*//31%*/
+	align-self: center;
+}
+
+.dropFlex-2{
+	/*/align-self: center;*/
+	padding-top: 10px; 
+	display: flex;
+	flex-direction: column;
+}
+
+.accR{
+	/*align-self: flex-end;
+	flex-basis: 10%;*/
+	/*margin-right: 20px;*/
+}
+
+
+.t2{
+	display: flex;
+	flex-direction: column;
+}
+
+.t2-p{
+	margin: 10px;
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	border-radius: 1.5%;
+	margin-bottom: 10px;
+}
+
+.t2-p-profile{
+	flex-basis: 50px; /*//10%
+	//background-color: #fafafa;*/
+	display: flex;
+	flex-direction: row;
+}
+
+.t2-p-p-1{
+	flex-basis:55px;/*//31%*/
+	align-self: center;
+}
+
+.t2-p-p-2{
+	/*/align-self: center;*/
+	padding-top: 10px; 
+}
+
+.img2{
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+	align-self: center;
+	margin-left: 3px;
+	margin-top: 3px;
+	margin-bottom: 5px;
+	margin-right: 10px;
+}
+
+div{
+	word-wrap: break-word;
+}
+
+.t2-p-link{
+	margin: 10px;
+}
+
+.t2-p-desc{
+	margin: 10px;
+}
+
+.t2-p-icons{
+	display: flex;
+	flex-direction: row;
+	
+}
+
+.icon{
+	font-size: 20px;
+	margin: 8px;
+}
+
+.t2-p-comments{
+	display: none;
+	flex-direction: column;
+	margin: 10px;
+}
+
+.comment{
+	margin: 10px;
+}
+
+input{
+	width: 100%;
+	margin-top: 2px;
+}
+.submit{
+	width: 22%;
+	height: 23px;
+	margin : 8px 5px 3px 0px;
+	padding-bottom: 7px;
+}
+
+.nLikes{
+	font-size: 14px;
+}
+
+/*
+@media screen and (max-width: 450px) {
+	.t4{
+
+	}
+}*/

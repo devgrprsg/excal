@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LinkBook</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="481994920688-sprocr3o1g642k4evmu8rm9tr8vcra5s.apps.googleusercontent.com">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/1.css">
+	<link rel="stylesheet" type="text/css" href="../css/1navicons.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+	<script type="text/javascript" src="../js/1.js"></script>
+
+	<script>
+	function signOut() {
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut().then(function () {
+		console.log('User signed out.');
+		location.href = "/"
+		});
+	}
+
+	function onLoad() {
+		gapi.load('auth2', function() {
+		gapi.auth2.init();
+		});
+	}
+	</script>
+
+	
+<body>
+	<div class="main b1">
+		<div class="main-1 b">
+			
+			
+		</div>
+		<div class="main-2 b">
+			<a href="sample_profile.html" style="color: black; text-decoration: none;">
+			<span class="glyphicon glyphicon-log-out icons_logout"></span>
+			| <b>LinkBook</b></a>
+		</div>
+		<div class="main-3 b">
+			
+		</div>
+		<div class="main-4 b">
+			<div class="icon-1">
+				<div class="dropdown">
+				  <div class="dropdown-content">
+				    
+				    <div class="dropFlex b">
+								<div class="dropFlex-1 b">
+									<img src="../images/111.jpg" alt="profile-pic" class="img1">
+								</div>
+								<div class="dropFlex-2">
+									<b>sakshi2k07</b> sent you a friend request<br>
+								</div>
+								
+					</div>
+					<div class="dropFlex b">
+								<div class="dropFlex-1 b">
+									<img src="../images/111.jpg" alt="profile-pic" class="img1">
+								</div>
+								<div class="dropFlex-2">
+									<b>sakshi2k07</b> sent you a friend request<br>
+									<!-- <p id="name">Sakshi Garg</p> -->
+								</div>
+								
+					</div>
+					<div class="dropFlex b">
+								<div class="dropFlex-1 b">
+									<img src="../images/111.jpg" alt="profile-pic" class="img1">
+								</div>
+								<div class="dropFlex-2">
+									<b>sakshi2k07</b> sent you a friend request<br>
+									<!-- <p id="name">Sakshi Garg</p> -->
+								</div>
+								
+					</div>
+					<div class="dropFlex b">
+								<div class="dropFlex-1 b">
+									<img src="../images/111.jpg" alt="profile-pic" class="img1">
+								</div>
+								<div class="dropFlex-2">
+									<b>sakshi2k07</b> sent you a friend request<br>
+									<!-- <p id="name">Sakshi Garg</p> -->
+								</div>
+								
+					</div>
+					<div class="dropFlex b">
+								<div class="dropFlex-1 b">
+									<img src="../images/111.jpg" alt="profile-pic" class="img1">
+								</div>
+								<div class="dropFlex-2">
+									<b>sakshi2k07</b> sent you a friend request<br>
+									<!-- <p id="name">Sakshi Garg</p> -->
+								</div>
+								
+					</div>
+					<div class="dropFlex b">
+								<div class="dropFlex-1 b">
+									<img src="../images/111.jpg" alt="profile-pic" class="img1">
+								</div>
+								<div class="dropFlex-2">
+									<b>sakshi2k07</b> sent you a friend request<br>
+									<!-- <p id="name">Sakshi Garg</p> -->
+								</div>
+								
+					</div>
+					<div class="dropFlex b">
+								<div class="dropFlex-1 b">
+									<img src="../images/111.jpg" alt="profile-pic" class="img1">
+								</div>
+								<div class="dropFlex-2">
+									<b>sakshi2k07</b> sent you a friend request<br>
+									<!-- <p id="name">Sakshi Garg</p> -->
+								</div>
+								
+					</div>
+					<div class="dropFlex b">
+								<div class="dropFlex-1 b">
+									<img src="../images/111.jpg" alt="profile-pic" class="img1">
+								</div>
+								<div class="dropFlex-2">
+									<b>sakshi2k07</b> sent you a friend request<br>
+									<!-- <p id="name">Sakshi Garg</p> -->
+								</div>
+								
+					</div>
+				  </div>
+				</div>
+       		</div>
+       		<div class="icon-2">
+        			 <div class="dropdown">
+				  <a class="dropbtn ho" id="friendReq"><span class="glyphicon glyphicon-user"></span></a>
+				  <div class="dropdown-content" id="frr">
+				    
+				 					
+				  </div>
+				</div>
+        	</div>
+        	<div class="icon-3">
+       				 <div class="dropdown">
+				  <a class="dropbtn ho" id="notify"><span class="glyphicon glyphicon-bell"></span></a>
+				  <div class="dropdown-content" id="notf">
+				    
+				    
+				  </div>
+				</div>
+       		</div>
+       		<div class="icon-4">
+        			 <a href="/" class="ho">
+          				<span class="glyphicon glyphicon-log-out icons" onclick="signOut();"></span>
+       				 </a>
+       		</div>
+		</div>
+		<div class="main-5 b">
+			
+		</div>
+	</div>
+	<div class="belowMain">
+		<div class="bMSpace b"></div>
+		<div class="timeline b">
+			<div class="t1 b">
+				
+			</div>
+			<div class="t2 b" id="posts">
+				
+					<!-- <div class="t2-p b1">
+
+							<div class="t2-p-profile b">
+								<div class="t2-p-p-1 b">
+									<img src="111.jpg" alt="profile-pic" class="img2">
+								</div>
+								<div class="t2-p-p-2 b">
+									<b>sakshi2k07</b><br>
+								</div>
+								
+							</div>
+
+							<div class="t2-p-link b">
+								<b>LINK :</b><br>
+								https://www.w3schools.com/jquery/jquery_noconflict.asp//jquery/jquery_noconflict.asp
+							</div>
+
+							<div class="t2-p-desc b">
+								<b>Description :</b><br>
+								It is recommended that you use this shorthand property rather than set the individual properties. The short hand sets the other values intelligently. 
+							</div>
+
+							<div class="t2-p-icons b">
+								<div class="icon1 icon b like" name="it is the link@devgrprsg@like" id="like-1" >
+								<span class="glyphicon glyphicon-heart-empty"></span><span class="nLikes">12</span>
+							    </div>
+							    <div class="icon2 icon b" name="link@devgrprsg@link-1" id="comment-1">
+								<span class="glyphicon glyphicon-comment"></span>
+							    </div>
+							    <div class="icon3 icon b add" name="it is the link@desdes@send" id="send-1">
+								<span class="glyphicon glyphicon-send addToProf"></span>
+							    </div>
+							</div>
+
+							<div class="t2-p-comments" id="link-1">
+								<div class="comment">
+								<div class="t2-p-c-n">
+									<b>sakshi : </b>
+								</div>
+								<div class="t2-p-c-d">
+									wow!! what a wonderful link
+								</div>
+							    </div>
+							    <div class="comment">
+								<div class="t2-p-c-n">
+									<b>Ritu : </b>
+								</div>
+								<div class="t2-p-c-d">
+									Helped me very much!!
+								</div>
+							    </div>
+							    <div class="comment">
+								<div class="t2-p-c-n">
+									<b>Shipra : </b>
+								</div>
+								<div class="t2-p-c-d">
+									Thanku so much for sharing this
+								</div>
+							    </div>
+
+									<div class="comment">
+										<div class="t2-p-c-n">
+											<b>Add Comment : </b>
+										</div>
+									    <div class="t2-p-c-d"><form method="post">
+									    	<input class="inC" id='link1' type="text" name="comment"><br>
+											<div class="submit" name="link@devgrprsg" id="1"><button>Comment</button></div>
+										</form>
+										</div>
+										 <div class="t2-p-c-d"><form method="post" action='https://us-central1-linkbook-68850.cloudfunctions.net/api/addComment'>
+									    	<input type="text" name="comment"><br>
+									    	
+											<div class="submit" name="link@devgrprsg" id="1"><button>Comment</button></div>
+										</form>
+										</div>
+
+
+									</div>
+							</div>
+
+
+						
+					</div>
+
+
+					<div class="t2-p b1">
+
+							<div class="t2-p-profile b">
+								<div class="t2-p-p-1 b">
+									<img src="111.jpg" alt="profile-pic" class="img2">
+								</div>
+								<div class="t2-p-p-2 b">
+									<b>sakshi2k07</b><br>
+								</div>
+								
+							</div>
+
+							<div class="t2-p-link b">
+								<b>LINK :</b><br>
+								https://www.w3schools.com/jquery/jquery_noconflict.asp//jquery/jquery_noconflict.asp
+							</div>
+
+							<div class="t2-p-desc b">
+								<b>Description :</b><br>
+								It is recommended that you use this shorthand property rather than set the individual properties. The short hand sets the other values intelligently. 
+							</div>
+
+							<div class="t2-p-icons b">
+								<div class="icon1 icon b like" name="it is the second link@devgrprsg@like" id="like-2" >
+								<span class="glyphicon glyphicon-heart-empty"></span><span class="nLikes">12</span>
+							    </div>
+							    <div class="icon2 icon b" name="it is the second link@devgrprsg@link-2" id="comment-2">
+								<span class="glyphicon glyphicon-comment"></span>
+							    </div>
+							    <div class="icon3 icon b add" name="it is the second link@desdes@send" id="send-2">
+								<span class="glyphicon glyphicon-send addToProf"></span>
+							    </div>
+							</div>
+
+							<div class="t2-p-comments" id="link-2">
+								<div class="comment">
+								<div class="t2-p-c-n">
+									<b>sakshi : </b>
+								</div>
+								<div class="t2-p-c-d">
+									wow!! what a wonderful link
+								</div>
+							    </div>
+							    <div class="comment">
+								<div class="t2-p-c-n">
+									<b>Ritu : </b>
+								</div>
+								<div class="t2-p-c-d">
+									Helped me very much!!
+								</div>
+							    </div>
+							    <div class="comment">
+								<div class="t2-p-c-n">
+									<b>Shipra : </b>
+								</div>
+								<div class="t2-p-c-d">
+									Thanku so much for sharing this
+								</div>
+							    </div>
+
+									<div class="comment">
+										<div class="t2-p-c-n">
+											<b>Add Comment : </b>
+										</div>
+									    <div class="t2-p-c-d"><form method="post">
+									    	<input class="inC" id='link2' type="text" name="comment"><br>
+											<div class="submit" name="link@sakshi2k07" id="2"><button>Comment</button></div>
+										</form>
+										</div>
+									</div>
+							</div>
+
+
+						
+					</div>
+ -->
+
+						
+
+
+			</div>
+			<div class="t3 b">
+				
+			</div>
+			<div class="t4 b">
+				<div class="t4-profile b">
+					<div class="t4-p-1 b">
+						<img src="../images/111.jpg" alt="profile-pic" class="img">
+					</div>
+					<div class="t4-p-2">
+						<span id='x1'></span>
+						<p id='x2'></p>
+					</div>
+					
+				</div>
+				<div class="t4-friends b1">
+					<div class="t4-f-1 b">
+						<div class="t4-f-1-1 b"><span class="name">Friends</span>
+						</div>					
+					</div>
+					<div class="t4-f-2 b" id="friends_json">
+
+							
+						</div>
+						
+					
+				</div>
+			</div>
+			<div class="t5 b">
+				
+			</div>
+		</div>
+	</div>
+
+	<script src="../js/googleLogin.js"></script>
+
+	<script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+
+</body>
+</html>

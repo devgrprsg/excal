@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LinkBook</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/sample_profile.css">
+    <link rel="stylesheet" type="text/css" href="../css/modal.css"> 
+    <link rel="stylesheet" type="text/css" href="../css/profile.css"> 
+    <link rel="stylesheet" type="text/css" href="../css/modal_form.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--     <script type="text/javascript" src="jquery.js"></script> -->
+   <!--  <script type="text/javascript" src="ajax_links.js"></script> -->
+<!--     <script type="text/javascript" src="ajax_folders.js"></script> -->
+    <script type="text/javascript" src="../js/ajax_folders_new.js"></script>
+    <script type="text/javascript" src="../js/username.js"></script>
+    <!-- <script type="text/javascript" src="addLink.js"></script> -->
+<!--     <script type="text/javascript" src="modal_form.css"></script> -->
+
+</head>
+<body>
+    <div class="main b1">
+        <div class="main-1 b">
+        </div>
+        <div class="main-2 b">
+          <a href="1.html" style="color: black; text-decoration: none;">
+            <span class="glyphicon glyphicon-log-out icons_logout"></span>
+            | <b>LinkBook</b>
+          </a>
+        </div>
+        <div class="main-3 b">
+            
+        </div>
+        <div class="main-4 b">
+          
+        </div>
+        <div class="main-5 b">
+            
+        </div>
+    </div>
+     <div class="profilePart">
+              <div class="col-left b">
+              </div>
+        <div class="col-middle b">
+                  <div class="item-1 b">
+                  </div>
+                <div class="item-2 b">
+                            <div class="col-1 b">
+                                <img class="image" src="../images/111.jpg"/>
+                            </div>
+                            <div class="col-2 b">
+                                          <div class="top b" id="user">
+                                            <!--   <div class="username">ritusingla222</div> -->
+                                          </div>
+                                          <div class="middle b">
+                                                <div class="middle-left b" id="friendsCount">
+                                                    <!-- <div class="friends">10 Friends</div> -->
+                                                </div>
+                                                <div class="middle-right b" id="friendRequestsCount">
+                                                    <!-- <div class="friend-requests">10 Friend Requests</div> -->
+                                                </div>
+                                          </div>
+                                        <div class="bottom b" id="name_of_user">
+                                          <!--   <div class="name"><b>Ritu Singla</b></div> -->
+                                        </div>
+                            </div>
+                        <div class="col-3 b">
+                          <div class="flex-1"></div>
+                          <div class="flex-2">
+                              <div id="id01" class="modal1">
+  
+                              <!-- <form id="form_click" class="modal-content1 animate1" method="POST"> -->
+                                <div class="modal-content1 animate1">
+                                <div class="container1">
+                                  <label for="link"><b>Link</b></label>
+                                  <input type="text" placeholder="Enter project name" id="link" name="link" required>
+
+                                  <label for="description"><b>Description</b></label>
+                                  <input type="text" placeholder="Enter description" id="des" name="description" required>
+                                  <label for="category"><b>Category</b></label>
+                                  <input type="text" placeholder="Enter category" id="cat" name="category" >
+                                  <div class="sub" ><button>add</button></div>
+                                  
+                                </div>
+                                </div>
+                              <!-- </form> -->
+                                    <center><button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button></center>
+                            </div>
+                            <button onclick="document.getElementById('id01').style.display='block'"  style=" width:auto; background-color: #fafafa; text-color: black; text-decoration: none;  border: 1px solid lightgrey;">
+                            <b>ADD LINK</b>
+                          </button></div>
+                          <div class="flex-3"></div>
+                        </div>
+                </div>
+                    <div class="item-3 b">
+                    </div>
+            <div class="item-4 b" id="folder_repeat">
+           <!--  <a href="#sample" style="color: black;">   -->
+<!--               <div class="newfolder" name="social">
+                <div class="glyphicon glyphicon-folder-open" class="folder"></div>
+                <div class="folder_name" id="flip">FolderNmae</div>
+              </div> -->
+           <!--  </a> -->
+            </div>
+ 
+
+      <div class="links b">
+              <!-- <div class="links-left b"></div> -->
+              <div class="out" id="link_repeat">
+              <!-- <div class="links-middle b">
+                <div class="hard-link"><b>LINK:</b></div>
+                <br>
+                <div class="linkmain b">LINK</div>
+                <div class="space2 b"></div>
+                <div class="hard-description"><b>DESCRIPTION:</b></div>
+                <br>
+                <div class="description b">DESCRIPTION</div>
+                <div class="space3 b"></div>
+                <div class="share">
+                  <div class="sub_share b call_share" name="link@description" id="link1"><button>Add to timeline</button></div>
+                  <div class="sub_space"></div>
+                <div class="delete"><button>Delete</button>
+                </div>
+              </div> -->
+            </div>
+          <div id="sample"></div>
+
+              <!-- <div class="links-right b"></div> -->
+        </div>
+
+      </div>
+
+
+        <div class="col-right b">
+        </div>
+    </div>
+    <script type="text/javascript" src="username.js"></script>
+</body>
+</html>

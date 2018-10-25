@@ -1,0 +1,49 @@
+.icons{
+	color: black;
+	font-size: 1.5em;
+	cursor: pointer;
+}
+
+
+
+.icons{
+	position: relative;
+	top: 10px;
+	left: 500px;
+}
+
+
+/*.dropdown li{
+	position: absolute;
+	top:0px;
+
+}*/
+
+.dropdown{
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	width: 500px;
+	right: 500px;
+}
+
+.dropdown li{
+  color: black;
+  background: white;
+  height: 50px;
+  font-family: arial;
+  font-weight: bold;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background 0.4s;
+  z-index: 0.5;
+  /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.05);*/
+  border: 2px solid #fafafa;
+}
+
+ul{
+	margin-top: 5px;
+}
+

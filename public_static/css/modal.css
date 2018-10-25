@@ -1,0 +1,154 @@
+/*body {
+background: url('http://www.zpubeograd.com/system/offers/images/000/000/178/original/wallpaper-223479-6674799-5-8663787.jpg?1418203037');
+}*/
+
+
+.modalbox .box {
+    background-color: rgba(0,0,0,0.7);
+    padding-top: 5%;
+    padding-right: 5%;
+    overflow: auto;
+    width: 100%; height: 100%; 
+    /*background-image: url('http://www.seekgif.com/uploads/metal-dark-gray-background-7.jpeg');*/
+    /*background-color: #fafafa;*/
+}
+/*.modalbox .content {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: Verdana;
+    font-size: 100px;
+    color: #fff;
+}*/
+ .content {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: Verdana;
+    font-size: 100px;
+    color: #fff;
+}
+
+/*.modalbox .sub_content {
+    margin-left: 400px;
+    display: flex;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    font-family: Verdana;*/
+  /*  font-size: 100px;*/
+ /*   color: #fff;
+}*/
+
+.sub_content {
+    margin-left: 400px;
+    display: flex;
+    /*margin-bottom: 10px;
+    margin-top: 10px;*/
+    flex-wrap: wrap;
+    font-family: Verdana;
+  /*  font-size: 100px;*/
+    color: #fff;
+}
+
+/*.modalbox .sub_{
+    position: relative;
+    margin-left: 20%;
+    margin-top: 1%;
+    margin-right: 2%;
+    margin-bottom: 10%;
+    font-size: 40px;
+}*/
+
+ .sub_{
+    position: relative;
+    margin-left: 20%;
+    /*margin-top: 1%;
+    margin-right: 2%;
+    margin-bottom: 10%;*/
+    font-size: 40px;
+}
+/*.modalbox .folder {
+    position: absolute;
+    font-family: Verdana;
+    font-size: 100px;
+    left: 5%;
+    top: 1%;
+    bottom: 1%;
+    color: #fff;
+}*/
+
+/*.folder {
+    position: absolute;
+    font-family: Verdana;
+    font-size: 100px;
+    /*left: 5%;
+    top: 1%;
+    bottom: 1%;
+    color: #fff;*/
+/*}*/
+/*.modalbox .folder_name {
+    position: absolute;
+    font-family: verdana;
+    font-size: 12px;
+    left: 5% ;
+    top: 120%;
+    bottom: 5%;
+    right: 20%;
+    color: #fff;
+}*/
+
+.folder_name {
+    position: absolute;
+    font-family: verdana;
+    font-size: 12px;
+    /*left: 5% ;
+    top: 120%;
+    bottom: 5%;
+    right: 20%;
+    color: #fff;*/
+}
+.modalbox .close {
+    color: #fff;
+    display: block;
+    float: right;
+    font-family: Verdana;
+    font-size: 22px;
+    height: 25px;
+    text-decoration: none;
+}
+
+.modalbox{
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    color:#333333;
+}
+
+.modalbox:target {
+    display: block;
+    outline: none;
+}
+
+
+/*.link-modal{
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 400px;
+    padding-left: 15px;
+}
+
+
+.link-modal a{
+    border: 1px solid #fff;
+    color: #fff;
+    font-family: Verdana;
+    font-size: 20px;
+    letter-spacing: 0.3em;
+    padding: 10px;
+    text-decoration: none;
+    text-transform: uppercase;
+}*/
