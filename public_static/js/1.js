@@ -2,9 +2,13 @@ var accessToken=localStorage.getItem('accessToken');
 var uemail=localStorage.getItem('uemail');
 var name=localStorage.getItem('name');
 var login=localStorage.getItem('login');
+
 function login_check(){
-    if(login==false){
-        window.location.href('/');
+
+    if(login == 'false'){
+
+        console.log("out")
+        window.location.replace("/");
     }
 }
 
@@ -34,7 +38,7 @@ function addLike(result,id,nL,ind)
 {
         if(result.success==true)
         {
-            if(ind=='undefined')
+            //if(ind=='undefined')
             // alert(yup);
             changeLike(id,nL,ind);
         }
@@ -177,7 +181,9 @@ function add_com(result)
 
 
 jQuery(document).ready(function(){
+
         login_check();
+
         jQuery("#x1").append('<b>'+uemail+'</b>'+'<br>');
         jQuery("#x1").append(name);
         jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/getFriends", 
