@@ -1,11 +1,13 @@
-// localStorage.setItem('accessToken','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWduZWRfaW4iOnRydWUsImJvZHkiOnsiaXNzIjoiYWNjb3VudHMuZ29vZ2xlLmNvbSIsImF6cCI6IjQ4MTk5NDkyMDY4OC1zcHJvY3IzbzFnNjQyazRldm11OHJtOXRyOHZjcmE1cy5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsImF1ZCI6IjQ4MTk5NDkyMDY4OC1zcHJvY3IzbzFnNjQyazRldm11OHJtOXRyOHZjcmE1cy5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjEwOTkyNzAyNzU0NzkxNDUyNTEzOCIsImVtYWlsIjoiZGV2Z3JwcnNnQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjoidHJ1ZSIsImF0X2hhc2giOiJpOS03RGNUUkpmdnFsWnJiWUJZZHZ3IiwibmFtZSI6IkV4Y2FsIFRlY2hzcGFyZGhhIiwicGljdHVyZSI6Imh0dHBzOi8vbGg2Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tMGlFMG5KMHIzOFkvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQUJ0TmxiQUY3STdEaE9GekQ4V0l5bjFNa3otS1ZXWndydy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiRXhjYWwiLCJmYW1pbHlfbmFtZSI6IlRlY2hzcGFyZGhhIiwibG9jYWxlIjoiZW4iLCJpYXQiOiIxNTQwNDY0ODYxIiwiZXhwIjoiMTU0MDQ2ODQ2MSIsImp0aSI6ImMyNDJmNDVkODI0NGIzZjI0YmIzMjYyZDdlYmYxZjYyOWIwOWEyZmMiLCJhbGciOiJSUzI1NiIsImtpZCI6IjcyOGY0MDE2NjUyMDc5YjllZDk5ODYxYmIwOWJhZmM1YTQ1YmFhODYiLCJ0eXAiOiJKV1QifSwiaWF0IjoxNTQwNDY0ODYyLCJleHAiOjE1NDA1MDgwNjJ9.hzbgJXLx7A6gBNjr7tKZFq_nzNdXWTInioodY5zuveI');
-
 var accessToken=localStorage.getItem('accessToken');
 var uemail=localStorage.getItem('uemail');
 var name=localStorage.getItem('name');
-// document.getElementById('name').innerHTML=name;
-// document.getElementById('x1').innerHTML=uemail;
-// $("#x1").empty();
+var login=localStorage.getItem('login');
+function login_check(){
+    if(login==false){
+        window.location.href('/');
+    }
+}
+
 $.noConflict();
 
 function fun(result)
@@ -164,7 +166,7 @@ function add_com(result)
     console.log(result);
         if(result.success==true)
         {
-            // alert("here");
+            
             document.location.reload();
         }
         else{
@@ -175,12 +177,13 @@ function add_com(result)
 
 
 jQuery(document).ready(function(){
+        login_check();
         jQuery("#x1").append('<b>'+uemail+'</b>'+'<br>');
         jQuery("#x1").append(name);
         jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/getFriends", 
         {
         	accessToken: accessToken
-        	// uemail:'devgrprsg'
+        	
         }
         	,function(result){
         		fun(result);   
@@ -188,7 +191,7 @@ jQuery(document).ready(function(){
                 jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/getTimeline", 
                     {
                         accessToken: accessToken
-                        // uemail:'devgrprsg'
+                       
                     }
                         ,function(res){
                             console.log(res);
@@ -204,7 +207,7 @@ jQuery(document).ready(function(){
                             var nL=jQuery("#n-likes"+ind).attr('name');
                             if(nL=='undefined')
                             {
-                                // alert("yes un");
+                               
                                 nL=0;
                             }
 
@@ -230,21 +233,7 @@ jQuery(document).ready(function(){
                                 var data=jQuery(this).attr('name');;
                                 var link=data.split(/[@]/)[0];
                                 var description=data.split(/[@]/)[1];
-                            //      jQuery.load("https://us-central1-linkbook-68850.cloudfunctions.net/api/addLink", 
-                            //         {
-                            //             accessToken : accessToken,
-                            //             uemail:uemail,
-                            //             link:link,
-                            //             category: 'misc',
-                            //             description: description,
-                            //             timeStamp: null
-                            //         }
-                            //             ,function(r){
-                            //                 alert("in function");
-                            //                 console.log(r);
-                            //                 add_to_prof(r,id);      
-                                            
-                            // });
+
 
                               jQuery.ajax({
 
@@ -262,7 +251,6 @@ jQuery(document).ready(function(){
 
                                     console.log(r);
                                     add_to_prof(r,id); 
-                                      // location.href = "./html/1.html"
                                     }
                                   })
 
@@ -293,28 +281,9 @@ jQuery(document).ready(function(){
                                         var post_uemail=data.split(/[@]/)[1];
                                         // alert(link_num);
                                         var iid='link'+link_num;
-                                        // alert(iid);
-
-                                        // alert("link: "+link);
-                                        // alert("uemail"+post_uemail);
+                           
                                         var comment=document.getElementById(iid).value;
 
-                                        // alert(comment);
-
-
-                                    //      jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/addComment", 
-                                    //     {
-                                    //         accessToken: accessToken,
-                                    //         uid:uemail,
-                                    //         link: link,
-                                    //         uemail:post_uemail,
-                                    //         comment: comment
-                                    //     }
-                                    //         ,function(result_c){
-                                    //             // alert("in in");
-                                    //             console.log(result_c);
-                                    //             add_com(result_c);       
-                                    // });
 
 
                                     jQuery.ajax({
@@ -348,64 +317,11 @@ jQuery(document).ready(function(){
                 });    
     });
 
-    //  jQuery(".submit").click(function(){
-
-    //     var data=jQuery(this).attr('name');
-    //     var link_num=jQuery(this).attr('id');
-    //     var link=data.split(/[@]/)[0];
-    //     var post_uemail=data.split(/[@]/)[1];
-    //     alert(link_num);
-    //     var iid='link'+link_num;
-    //     alert(iid);
-    //     var comment=document.getElementById(iid).value;
-
-    //     alert(comment);
-    //     alert(link);
-    //     alert(post_uemail);
-
-    //      jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/addComment", 
-    //     {
-    //         uid:'devgrprsg',
-    //         link: link,
-    //         uemail:post_uemail,
-    //         comment: comment
-    //     }
-    //         ,function(result){
-    //             add_com(result);       
-    // });
-    // });
+   
 });
 
 
 
-//jQuery(document).ready(function(){
-    // jQuery(".submit").click(function(){
-
-    //     var data=jQuery(this).attr('name');
-    //     var link_num=jQuery(this).attr('id');
-    //     var link=data.split(/[@]/)[0];
-    //     var post_uemail=data.split(/[@]/)[1];
-    //     alert(link_num);
-    //     var iid='link'+link_num;
-    //     alert(iid);
-    //     var comment=document.getElementById(iid).value;
-
-    //     alert(comment);
-
-
-    //      jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/addComment", 
-    //     {
-    //         uid:'sakshi2k07',
-    //         link: link,
-    //         uemail:post_uemail,
-    //         comment: comment
-    //     }
-    //         ,function(result){
-    //             console.log(result);
-    //             add_com(result);       
-    // });
-    // });
-//});
 
 
 function fReq(result)
@@ -521,7 +437,6 @@ function getN(item,index)
 
 jQuery(document).ready(function(){
 jQuery("#notify").click(function(){
-    // alert("hey");
      jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/getNotifications", 
         {
             accessToken : accessToken,
@@ -535,153 +450,78 @@ jQuery("#notify").click(function(){
 });
 
 
+function getUsers(result)
+{
+        result.forEach(getU);
+}
 
+function getU(item,index)
+{
+ 
+        var ref=document.getElementById('show_all');
+        var fd='<div class="p-profile b">'+
+                                            '<div class="p-p-1 b">'+
+                                                '<img src="../images/111.jpg" alt="profile-pic" class="img2">'+
+                                            '</div>'+
+                                            '<div class="p-p-2 b">'+
+                                                '<b>'+item+'</b><br>'+
+                                            '</div>'+
+                                            '<div class="p-p-3 b">'+
+                                                '<button class="new_b click" id="'+item+'"><b>Send Friend Request</b></button>'+
+                                            '</div>'+
+                                            
+                                        '</div>';
+        ref.innerHTML=ref.innerHTML+fd;
+}
 
-// function addLike(result,id)
-// {
-//         if(result.success==true)
-//         {
-//             // alert("done upto here");
-//             changeLike(id);
-//         }
-//         else
-//         {
-//             alert("some problem encountered!!");
-//         }
-// }
+function send_R(result,id)
+{
+    console.log(result);
+        if(result.success==true)
+        {
 
-// function changeLike(id)
-// {
-//     jQuery('#'+id).empty();
-//     var ic='<span class="glyphicon glyphicon-heart"></span>';
-
-//     jQuery('#'+id).append(ic);
-// }
-
-
+            jQuery("#"+id).empty();
+            jQuery("#"+id).append("<b>friend Req Sent</b>");
+            // alert("here");
+           
+        }
+        else{
+            alert("error");
+        }
+}
 
 jQuery(document).ready(function(){
-// jQuery(".like").click(function(){
-//     var id = jQuery(this).attr('id');
-//     var data=jQuery(this).attr('name');
-//     var link=data.split(/[@]/)[0];
-//     var uemail=data.split(/[@]/)[1];
-//     var type=data.split(/[@]/)[2];
-//     alert(link);
-//     alert(uemail);
-//     alert(type);
-//      jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/addLike", 
-//         {
-//             // accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWduZWRfaW4iOnRydWUsImJvZHkiOnsia2luZCI6InBsdXMjcGVyc29uIiwiZXRhZyI6IlwiamIxWHphbm94Nmk4WnlzZTREY1lEOHNacXkwL2t4Z1N6Z3NhVXpqRzJVb1NqVFptZklIaHplRVwiIiwiZW1haWxzIjpbeyJ2YWx1ZSI6InNoYWtzaGlnYXJnOTQxNjg1ODg3NUBnbWFpbC5jb20iLCJ0eXBlIjoiYWNjb3VudCJ9XSwib2JqZWN0VHlwZSI6InBlcnNvbiIsImlkIjoiMTE1NzY5NDU0NjI0NDIzNTk4NzU5IiwiZGlzcGxheU5hbWUiOiJTaGFrc2hpIGdhcmciLCJuYW1lIjp7ImZhbWlseU5hbWUiOiJnYXJnIiwiZ2l2ZW5OYW1lIjoiU2hha3NoaSJ9LCJ1cmwiOiJodHRwczovL3BsdXMuZ29vZ2xlLmNvbS8xMTU3Njk0NTQ2MjQ0MjM1OTg3NTkiLCJpbWFnZSI6eyJ1cmwiOiJodHRwczovL2xoNi5nb29nbGV1c2VyY29udGVudC5jb20vLTVMNmpqbTc5My13L0FBQUFBQUFBQUFJL0FBQUFBQUFBQUJBL0d4UVBKejZjOTFvL3Bob3RvLmpwZz9zej01MCIsImlzRGVmYXVsdCI6ZmFsc2V9LCJpc1BsdXNVc2VyIjp0cnVlLCJsYW5ndWFnZSI6ImVuIiwiY2lyY2xlZEJ5Q291bnQiOjAsInZlcmlmaWVkIjpmYWxzZX0sImlhdCI6MTU0MDMyMTMxOCwiZXhwIjoxNTQwMzY0NTE4fQ.SSvuB-FuErJen37Tt3ZlLLwCe3IFezxiIYTiFCYznk0',
-//             uid:'sakshi2k07',
-//             uemail: uemail,
-//             link: link
-//         }
-//             ,function(result){
-//                 // alert(id);
-//                 addLike(result,id);      
-                
-// });
-// });
+jQuery("#getUsers").click(function(){
+     jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/getAllUsers", 
+        {
+            accessToken : accessToken,
+        }
+            ,function(result){
+                console.log(result);
+                getUsers(result);  
+                jQuery(".click").click(function(){ 
+                var r_uemail=jQuery(this).attr('id');
+                jQuery.ajax({
+
+                                        url : "https://us-central1-linkbook-68850.cloudfunctions.net/api/sendFriendRequest",
+                                        type : "POST",
+                                        data : {
+                                            accessToken: accessToken,
+                                            receiverEmail:r_uemail,
+                                            email:uemail
+                                            
+                                        },
+                                    success : function(result_c,status) {
+                                    console.log(result_c);
+                                    send_R(result_c,r_uemail);      
+                                     
+                                    }
+                                  })
+                         });
+            });
+});
 });
 
 
 
-
-// jQuery(document).ready(function(){
-// jQuery(".add").click(function(){
-//     var id = jQuery(this).attr('id');
-//     var data=jQuery(this).attr('name');;
-//     var link=data.split(/[@]/)[0];
-//     var description=data.split(/[@]/)[1];
-//      jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/addLink", 
-//         {
-//             // accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWduZWRfaW4iOnRydWUsImJvZHkiOnsia2luZCI6InBsdXMjcGVyc29uIiwiZXRhZyI6IlwiamIxWHphbm94Nmk4WnlzZTREY1lEOHNacXkwL2t4Z1N6Z3NhVXpqRzJVb1NqVFptZklIaHplRVwiIiwiZW1haWxzIjpbeyJ2YWx1ZSI6InNoYWtzaGlnYXJnOTQxNjg1ODg3NUBnbWFpbC5jb20iLCJ0eXBlIjoiYWNjb3VudCJ9XSwib2JqZWN0VHlwZSI6InBlcnNvbiIsImlkIjoiMTE1NzY5NDU0NjI0NDIzNTk4NzU5IiwiZGlzcGxheU5hbWUiOiJTaGFrc2hpIGdhcmciLCJuYW1lIjp7ImZhbWlseU5hbWUiOiJnYXJnIiwiZ2l2ZW5OYW1lIjoiU2hha3NoaSJ9LCJ1cmwiOiJodHRwczovL3BsdXMuZ29vZ2xlLmNvbS8xMTU3Njk0NTQ2MjQ0MjM1OTg3NTkiLCJpbWFnZSI6eyJ1cmwiOiJodHRwczovL2xoNi5nb29nbGV1c2VyY29udGVudC5jb20vLTVMNmpqbTc5My13L0FBQUFBQUFBQUFJL0FBQUFBQUFBQUJBL0d4UVBKejZjOTFvL3Bob3RvLmpwZz9zej01MCIsImlzRGVmYXVsdCI6ZmFsc2V9LCJpc1BsdXNVc2VyIjp0cnVlLCJsYW5ndWFnZSI6ImVuIiwiY2lyY2xlZEJ5Q291bnQiOjAsInZlcmlmaWVkIjpmYWxzZX0sImlhdCI6MTU0MDMyMTMxOCwiZXhwIjoxNTQwMzY0NTE4fQ.SSvuB-FuErJen37Tt3ZlLLwCe3IFezxiIYTiFCYznk0',
-//             uemail:'devgrprsg',
-//             link:link,
-//             category: 'misc',
-//             description: description,
-//             timeStamp: null
-//         }
-//             ,function(result){
-//                 add_to_prof(result,id);      
-                
-// });
-// });
-// });
-
-
-// function getComm(res,id)
-// {
-//     localStorage.setItem('id',id);
-//         res.forEach(getComms);
-// }
-
-
-
-// function getComms(item,index)
-// {
-//     id=localStorage.getItem('id');
-//     alert('index '+index);
-//     var ref=document.getElementById(id);
-//     var j='<div class="comment">'+
-//                                 '<div class="t2-p-c-n">'+
-//                                     '<b>'+item.uemail+' : </b>'+
-//                                 '</div>'+
-//                                 '<div class="t2-p-c-d">'+
-//                                     item.comment+
-//                                 '</div>'+
-//                                 '</div>';
-//     ref.innerHTML=j+ref.innerHTML;
-// }
-
-
-jQuery(document).ready(function(){
-//     jQuery(".icon2").click(function(){
-//         var data = jQuery(this).attr('name');
-//         var link=data.split(/[@]/)[0];
-//         var post_uemail=data.split(/[@]/)[1];
-//         var id = data.split(/[@]/)[2];
-//         alert(link+' '+post_uemail+' '+id);
-
-//         jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/getComments", 
-//         {
-//             // accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWduZWRfaW4iOnRydWUsImJvZHkiOnsia2luZCI6InBsdXMjcGVyc29uIiwiZXRhZyI6IlwiamIxWHphbm94Nmk4WnlzZTREY1lEOHNacXkwL2t4Z1N6Z3NhVXpqRzJVb1NqVFptZklIaHplRVwiIiwiZW1haWxzIjpbeyJ2YWx1ZSI6InNoYWtzaGlnYXJnOTQxNjg1ODg3NUBnbWFpbC5jb20iLCJ0eXBlIjoiYWNjb3VudCJ9XSwib2JqZWN0VHlwZSI6InBlcnNvbiIsImlkIjoiMTE1NzY5NDU0NjI0NDIzNTk4NzU5IiwiZGlzcGxheU5hbWUiOiJTaGFrc2hpIGdhcmciLCJuYW1lIjp7ImZhbWlseU5hbWUiOiJnYXJnIiwiZ2l2ZW5OYW1lIjoiU2hha3NoaSJ9LCJ1cmwiOiJodHRwczovL3BsdXMuZ29vZ2xlLmNvbS8xMTU3Njk0NTQ2MjQ0MjM1OTg3NTkiLCJpbWFnZSI6eyJ1cmwiOiJodHRwczovL2xoNi5nb29nbGV1c2VyY29udGVudC5jb20vLTVMNmpqbTc5My13L0FBQUFBQUFBQUFJL0FBQUFBQUFBQUJBL0d4UVBKejZjOTFvL3Bob3RvLmpwZz9zej01MCIsImlzRGVmYXVsdCI6ZmFsc2V9LCJpc1BsdXNVc2VyIjp0cnVlLCJsYW5ndWFnZSI6ImVuIiwiY2lyY2xlZEJ5Q291bnQiOjAsInZlcmlmaWVkIjpmYWxzZX0sImlhdCI6MTU0MDMyMTMxOCwiZXhwIjoxNTQwMzY0NTE4fQ.SSvuB-FuErJen37Tt3ZlLLwCe3IFezxiIYTiFCYznk0',
-//             uemail:post_uemail,
-//             link:link,
-//         }
-//             ,function(result){
-//                 getComm(result,id);    
-//                      jQuery(".submit").click(function(){
-
-//                     var data=jQuery(this).attr('name');
-//                     var link_num=jQuery(this).attr('id');
-//                     var link=data.split(/[@]/)[0];
-//                     var post_uemail=data.split(/[@]/)[1];
-//                     alert(link_num);
-//                     var iid='link'+link_num;
-//                     alert(iid);
-//                     var comment=document.getElementById(iid).value;
-
-//                     alert(comment);
-
-
-//                      jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/addComment", 
-//                     {
-//                         uid:'sakshi2k07',
-//                         link: link,
-//                         uemail:post_uemail,
-//                         comment: comment
-//                     }
-//                         ,function(result){
-//                             console.log(result);
-//                             add_com(result);       
-//                 });
-//                 });
-//                 jQuery("#"+id).slideToggle("slow"); 
-// });
-
-//          // $(".t2-p-comments").css('display','flex');
-//     });
-});
 

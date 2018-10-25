@@ -304,6 +304,33 @@ input{
 	font-size: 14px;
 }
 
+
+.p-profile{
+	flex-basis: 50px; /*//10%
+	//background-color: #fafafa;*/
+	display: flex;
+	flex-direction: row;
+}
+
+.p-p-1{
+	flex-basis:55px;/*//31%*/
+	align-self: center;
+}
+
+.p-p-2{
+	/*/align-self: center;*/
+	padding-top: 10px; 
+	flex-basis:300px;
+}
+
+.p-p-3{
+	/*/align-self: center;*/
+	flex-basis: 600px;
+	padding-top: 6px; 
+
+}
+
+
 /*
 @media screen and (max-width: 450px) {
 	.t4{

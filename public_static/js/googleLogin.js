@@ -17,18 +17,13 @@ function onSignIn(googleUser) {
     },
     success : function(result,status) {
 
-      // console.log("access token = ")
-      // console.log(result)
-      // console.log("hello")
-      // console.log(status)
-      
-      // alert(result);
       console.log(result);
       let uemail = profile.U3.split(/[@]/)[0]
       localStorage.setItem('accessToken',result)
       localStorage.setItem('uemail',uemail)
       localStorage.setItem('name',profile.ig)
       localStorage.setItem('profilePic',profile.picture)
+      localStorage.setItem('login',true);
 
       location.href = "./html/1.html"
     }
@@ -39,5 +34,7 @@ function signOut() {
   var auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function () {
     console.log('User signed out.');
+    localStorage.clear();
+      localStorage.setItem('login',false);
   });
 }
