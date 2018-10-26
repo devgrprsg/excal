@@ -5,7 +5,7 @@ var login=localStorage.getItem('login');
 
 function login_check(){
 
-    if(login == false){
+    if(login == "false"){
 
         console.log("out")
         window.location.replace("https://obscure-dawn-58274.herokuapp.com/")
