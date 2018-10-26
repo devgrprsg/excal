@@ -127,8 +127,8 @@ function getPosts(item,index)
                             '</div>'+
 
                             '<div class="t2-p-link b">'+
-                                '<b>LINK :</b><br>'+
-                                item.link+
+                                '<b>LINK :</b><br>'+'<a href = " ' +
+                                item.link + ' ">' + item.link
                             '</div>'+
 
                             '<div class="t2-p-desc b">'+
@@ -358,28 +358,30 @@ function getFR(item,index)
 
 jQuery(document).ready(function(){
 jQuery("#friendReq").click(function(){
-	// alert("hey");
+    // alert("hey");
+    
+    //  $(this).attr("disabled","disabled")
+
 	 jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/getFRequests", 
         {
             accessToken: accessToken,
         	uemail:uemail
         }
-        	,function(result){
-        		fReq(result);      
-                jQuery(".accR").click(function(){
-                    var id = jQuery(this).attr('id');
-                    var hid='\''+id+'\'';
-                     jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/acceptFriendRequest", 
-                        {
-                            accessToken: accessToken,
-                            uemail:'devgrprsg',
-                            senderEmail :id
-                        }
-                            ,function(result_acc_fr){
-                                accReq(result_acc_fr,id);       
-                    });
-
-                }); 
+        ,function(result){
+            fReq(result);      
+            jQuery(".accR").click(function(){
+                var id = jQuery(this).attr('id');
+                var hid='\''+id+'\'';
+                    jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/acceptFriendRequest", 
+                    {
+                        accessToken: accessToken,
+                        uemail:'devgrprsg',
+                        senderEmail :id
+                    }
+                        ,function(result_acc_fr){
+                            accReq(result_acc_fr,id);       
+                });
+            }); 
     });
 });
 });
@@ -443,6 +445,7 @@ function getN(item,index)
 
 jQuery(document).ready(function(){
 jQuery("#notify").click(function(){
+
      jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/getNotifications", 
         {
             accessToken : accessToken,
