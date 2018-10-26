@@ -292,7 +292,7 @@ jQuery(document).ready(function(){
                            
                                         var comment=document.getElementById(iid).value;
 
-
+                                                alert(post_uemail);
 
                                     jQuery.ajax({
 
@@ -300,9 +300,9 @@ jQuery(document).ready(function(){
                                         type : "POST",
                                         data : {
                                             accessToken: accessToken,
-                                            uid:post_uemail,
+                                            uid:uemail,
                                             link: link,
-                                            uemail:uemail,
+                                            uemail:post_uemail,
                                             comment: comment
                                         },
                                     success : function(result_c,status) {
