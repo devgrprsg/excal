@@ -41,9 +41,9 @@ img{
 
 
 
-@media screen and (max-width: 600px) {
+/* @media screen and (max-width: 600px) {
     .mb{
-    /* border: 0.5px solid grey; */
+    border: 0.5px solid grey;
     height: 450px;
     width: 310px;
     background-color: white;
@@ -53,7 +53,7 @@ img{
     margin-left: 4px;
     margin-top: 0px;
 
-}
+} */
 
 body{
     background-color: #fafafa;
