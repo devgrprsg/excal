@@ -362,7 +362,7 @@ jQuery(document).ready(function(){
 jQuery("#friendReq").click(function(){
     // alert("hey");
     
-    //  $(this).attr("disabled","disabled")
+    $(this).attr("disabled","disabled")
 
 	 jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/getFRequests", 
         {
