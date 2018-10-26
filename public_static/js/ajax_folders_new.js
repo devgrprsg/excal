@@ -36,7 +36,7 @@ function getLinks(item,index)
     var link='<div class="links-middle b">'+
                 '<div class="hard-link"><b>LINK:</b></div>'+
                 '<br>'+
-                '<div class="linkmain b">'+ item.link+'</div>'+
+                '<div class="linkmain b">'+ '<a href = " ' + item.link + ' " >' + item.link + '</a>' + '</div>'+
                 '<div class="space2 b"></div>'+
                 '<div class="hard-description"><b>DESCRIPTION:</b></div>'+
                 '<br>'+
