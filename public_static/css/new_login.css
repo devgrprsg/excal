@@ -41,9 +41,45 @@ img{
 
 
 
-/*@media screen and (max-width: 600px) {
-    body {
-        background-color: olive;
-        color: white;
-    }
-}*/
+@media screen and (max-width: 600px) {
+    .mb{
+    /* border: 0.5px solid grey; */
+    height: 450px;
+    width: 310px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.1);
+    margin-left: 4px;
+    margin-top: 0px;
+
+}
+
+body{
+    background-color: #fafafa;
+}
+
+
+.mb-1{
+    flex-basis: 50px;
+}
+
+.mb-t{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 18px;
+    margin-top: 40px;
+}
+
+.mb-3{
+    align-self: space-around;
+    margin-top: 5px;
+    padding-bottom: 5px;
+}
+
+img{
+    width:100px;
+    height:100px;
+    align-content: center;
+    margin: 10px;
+}
+}
