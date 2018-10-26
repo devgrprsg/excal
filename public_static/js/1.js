@@ -8,7 +8,9 @@ function login_check(){
     if(login == false){
 
         console.log("out")
-        window.location.replace("/abc");
+        setTimeout(function(){
+            window.location.replace("/")
+        },5000)
     }
 }
 
