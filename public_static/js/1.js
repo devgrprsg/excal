@@ -8,7 +8,7 @@ function login_check(){
     if(login == 'false'){
 
         console.log("out")
-        window.location.replace("/");
+        window.location.replace("/abc");
     }
 }
 
