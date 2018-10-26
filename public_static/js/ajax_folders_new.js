@@ -215,12 +215,16 @@ $(document).ready(function(){
                                                     var data=$(this).attr('name');
                                                     var id=$(this).attr('id');
                                                     var link =data.split(/[@]/)[0];
+
+                                                    alert(link)
+                                                    alert(uemail)
+                                                    
                                                     var description = data.split(/[@]/)[1];
 
                                                      $.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/addTimeline", 
                                                     {
                                                         
-                                                         accessToken: accessToken,
+                                                        accessToken: accessToken,
                                                         link: link,
                                                         description: description,
                                                     }
