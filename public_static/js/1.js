@@ -300,9 +300,9 @@ jQuery(document).ready(function(){
                                         type : "POST",
                                         data : {
                                             accessToken: accessToken,
-                                            uid:uemail,
+                                            uid:post_uemail,
                                             link: link,
-                                            uemail:post_uemail,
+                                            uemail:uemail,
                                             comment: comment
                                         },
                                     success : function(result_c,status) {
