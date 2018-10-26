@@ -128,7 +128,7 @@ function getPosts(item,index)
 
                             '<div class="t2-p-link b">'+
                                 '<b>LINK :</b><br>'+'<a href = " ' +
-                                item.link + ' ">' + item.link + 
+                                item.link + ' "/>' + item.link + 
                             '</div>'+
 
                             '<div class="t2-p-desc b">'+
