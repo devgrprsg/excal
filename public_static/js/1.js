@@ -8,9 +8,7 @@ function login_check(){
     if(login == false){
 
         console.log("out")
-        setTimeout(function(){
-            window.location.replace("/")
-        },5000)
+        window.location.replace("https://obscure-dawn-58274.herokuapp.com/")
     }
 }
 
