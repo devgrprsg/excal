@@ -361,8 +361,6 @@ function getFR(item,index)
 jQuery(document).ready(function(){
 jQuery("#friendReq").click(function(){
     // alert("hey");
-    
-    $( "#friendReq" ).prop( "disabled", true );
 
 	 jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/getFRequests", 
         {
@@ -387,8 +385,6 @@ jQuery("#friendReq").click(function(){
                 });
             }); 
     });
-
-    $( "#friendReq" ).prop( "disabled", false );
 });
 });
 
