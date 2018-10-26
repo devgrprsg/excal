@@ -362,7 +362,6 @@ jQuery(document).ready(function(){
 jQuery("#friendReq").click(function(){
     // alert("hey");
     
-    setTimeout(function(){$(this).attr("disabled","disabled")},4000)
 
 	 jQuery.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/getFRequests", 
         {
@@ -370,7 +369,11 @@ jQuery("#friendReq").click(function(){
         	uemail:uemail
         }
         ,function(result){
-            fReq(result);      
+
+            fReq(result);
+            
+            $( "#friendReq" ).prop( "disabled", true );
+
             jQuery(".accR").click(function(){
                 var id = jQuery(this).attr('id');
                 var hid='\''+id+'\'';
@@ -385,6 +388,8 @@ jQuery("#friendReq").click(function(){
                 });
             }); 
     });
+
+    $( "#friendReq" ).prop( "disabled", false );
 });
 });
 
