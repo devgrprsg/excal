@@ -292,8 +292,7 @@ jQuery(document).ready(function(){
                            
                                         var comment=document.getElementById(iid).value;
 
-                                                alert(post_uemail)
-                                                alert(link);
+                    
 
                                     jQuery.ajax({
 

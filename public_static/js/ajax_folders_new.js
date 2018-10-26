@@ -216,9 +216,7 @@ $(document).ready(function(){
                                                     var id=$(this).attr('id');
                                                     var link =data.split(/[@]/)[0];
 
-                                                    alert(link)
-                                                    alert(uemail)
-                                                    
+
                                                     var description = data.split(/[@]/)[1];
 
                                                      $.post("https://us-central1-linkbook-68850.cloudfunctions.net/api/addTimeline", 
